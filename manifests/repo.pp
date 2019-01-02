@@ -27,6 +27,7 @@ class webmin::repo () inherits webmin {
       'Debian': {
         require apt
 
+        notify {"Setting up system as test VM: ${::facts[test_vm]}":}
         if $::facts[test_vm] {
           anchor { "${module_name}::begin_update": }
           -> class { "${module_name}::update::ppa": }
