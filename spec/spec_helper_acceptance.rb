@@ -66,17 +66,8 @@ default_fact_files.each do |f|
   next unless File.exist?(f) && File.readable?(f) && File.size?(f)
 
   begin
-    default_facts.merge!(YAML.safe_load(File.read(f)))
+    facts.merge!(YAML.safe_load(File.read(f)))
   rescue => e
     RSpec.configuration.reporter.message "WARNING: Unable to load #{f}: #{e}"
-  end
-end
-
-RSpec.configure do |c|
-  c.default_facts = default_facts
-  c.before :each do
-    # set to strictest setting for testing
-    # by default Puppet runs at warning level
-    Puppet.settings[:strict] = :warning
   end
 end
